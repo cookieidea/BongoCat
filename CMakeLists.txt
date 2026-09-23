@@ -41,6 +41,17 @@ endif()
 include(cmake/Dependencies.cmake)
 include(cmake/AudioDecoder.cmake)
 find_package(OpenGL REQUIRED)
+if(UNIX AND NOT APPLE)
+  find_package(PkgConfig QUIET)
+  if(PkgConfig_FOUND)
+    pkg_check_modules(FONTCONFIG QUIET fontconfig)
+  endif()
+  if(FONTCONFIG_FOUND)
+    message(STATUS "Using fontconfig ${FONTCONFIG_VERSION} for system fonts")
+  else()
+    message(STATUS "fontconfig not found; using fixed font paths")
+  endif()
+endif()
 set(BONGO_CAT_LIVE2D_SOURCES src/live2d/live2d_stub.c)
 set(BONGO_CAT_CUBISM_ENABLED OFF)
 set(CUBISM_CORE_HEADER "${BONGO_CAT_CUBISM_SDK}/Core/include/Live2DCubismCore.h")
@@ -128,6 +139,15 @@ endif()
 target_compile_definitions(bongo_cat_runtime PRIVATE
   BONGO_CAT_DEV_ASSET_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/resources/assets"
   BONGO_CAT_DEV_LOCALE_ROOT="${CMAKE_CURRENT_SOURCE_DIR}/resources/assets/locales")
+
+if(FONTCONFIG_FOUND)
+  target_include_directories(bongo_cat_runtime PRIVATE
+    ${FONTCONFIG_INCLUDE_DIRS})
+  target_compile_definitions(bongo_cat_runtime PRIVATE
+    BONGO_CAT_HAVE_FONTCONFIG=1)
+  target_link_libraries(bongo_cat_runtime PRIVATE ${FONTCONFIG_LIBRARIES})
+  target_link_directories(bongo_cat_runtime PRIVATE ${FONTCONFIG_LIBRARY_DIRS})
+endif()
 
 include(cmake/PlatformRuntime.cmake)
 include(cmake/AboutWebP.cmake)
