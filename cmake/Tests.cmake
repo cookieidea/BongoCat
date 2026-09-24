@@ -192,6 +192,7 @@ if(BUILD_TESTING)
     tests/model_import/test_mver_missing_motion.c
     tests/model_import/test_mver_pointer_import.c
     tests/ui/test_preferences_text.c
+    tests/ui/test_preferences_import.c
     tests/model_import/test_mver_nearby_identity.c
     tests/model_import/test_mver_policy.c
     tests/model_import/test_model_import_identity.c
@@ -214,6 +215,8 @@ if(BUILD_TESTING)
       COMPILE_OPTIONS "/experimental:c11atomics")
   endif()
   add_test(NAME model-import-unit COMMAND bongo_cat_mver_import_tests)
+  add_test(NAME model-import-notice COMMAND bongo_cat_mver_import_tests
+    --import-notice)
 
   add_executable(bongo_cat_preferences_lifecycle_tests
     tests/ui/test_preferences_lifecycle.c)

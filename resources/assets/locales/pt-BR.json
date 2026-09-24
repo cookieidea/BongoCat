@@ -105,9 +105,9 @@
           "deleteSuccess": "Modelo \"%s\" excluído",
           "deleteModel": "Tem certeza de que deseja excluir \"%s\"?",
           "deleteFailed": "Não foi possível excluir este modelo",
-          "importSuccess": "Importação bem-sucedida",
-          "importExists": "O modelo já existe",
-          "importBatchResult": "Importados com sucesso: %zu; falhas: %zu.\nModelos com falha: %s%s.\nPrimeira falha: %s",
+          "importSuccess": "%zu modelo(s) importado(s): %s",
+          "importExists": "%zu modelo(s) já existente(s): %s",
+          "importBatchResult": "Falha ao importar %zu modelo(s): %s.\nPrimeiro erro: %s",
           "importMoreFailures": " e mais %zu",
           "importUnknownSource": "origem desconhecida",
           "importInvalidSource": "A origem selecionada não existe mais ou não pode ser usada",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "Não foi possível salvar o atalho do modelo. Verifique as permissões dos arquivos e o espaço disponível em disco",
           "behaviorRenameLimit": "Não é possível salvar mais nomes de ações personalizados. O limite de configurações personalizadas foi atingido",
           "clickOrDragToImport": "Clique ou arraste uma pasta",
-          "supportedImportFormats": "Compatível com Mver e Tauri",
           "openDirectoryFailed": "Não foi possível abrir a pasta do modelo"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "Mostrar Gato",
         "passThrough": "Janela Transparente",
         "alwaysOnTop": "Sempre no Topo",
+        "cancelAlwaysOnTop": "Desativar Sempre no Topo",
         "windowSize": "Tamanho da Janela",
         "opacity": "Opacidade",
         "motion": "Movimentos",

@@ -105,9 +105,9 @@
           "deleteSuccess": "已刪除「%s」",
           "deleteModel": "您確定要刪除「%s」嗎？",
           "deleteFailed": "無法刪除此模型",
-          "importSuccess": "匯入成功",
-          "importExists": "模型已存在，無需重複匯入",
-          "importBatchResult": "匯入成功 %zu 個，匯入失敗 %zu 個。\n失敗模型：%s%s。\n首個失敗原因：%s",
+          "importSuccess": "匯入成功 %zu 個模型：%s",
+          "importExists": "已存在 %zu 個模型，無需重複匯入：%s",
+          "importBatchResult": "匯入失敗 %zu 個模型：%s。\n首個失敗原因：%s",
           "importMoreFailures": "等其餘 %zu 個",
           "importUnknownSource": "未知來源",
           "importInvalidSource": "所選來源已不存在或無法使用",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "無法儲存模型快捷鍵，請檢查檔案權限和可用磁碟空間",
           "behaviorRenameLimit": "無法儲存更多自訂動作名稱，已達到自訂設定數量上限",
           "clickOrDragToImport": "點擊或拖入模型資料夾",
-          "supportedImportFormats": "支援 Mver 與 Tauri 格式",
           "openDirectoryFailed": "無法開啟模型目錄"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "顯示貓咪",
         "passThrough": "視窗穿透",
         "alwaysOnTop": "置頂",
+        "cancelAlwaysOnTop": "取消置頂",
         "windowSize": "視窗尺寸",
         "opacity": "不透明度",
         "motion": "動作",

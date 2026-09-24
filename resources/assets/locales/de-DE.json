@@ -105,9 +105,9 @@
           "deleteSuccess": "\"%s\" wurde gelöscht",
           "deleteModel": "Möchten Sie \"%s\" wirklich löschen?",
           "deleteFailed": "Dieses Modell konnte nicht gelöscht werden",
-          "importSuccess": "Erfolgreich importiert",
-          "importExists": "Modell ist bereits vorhanden",
-          "importBatchResult": "Import erfolgreich: %zu; fehlgeschlagen: %zu.\nFehlende Modelle: %s%s.\nErster Fehler: %s",
+          "importSuccess": "%zu Modell(e) importiert: %s",
+          "importExists": "%zu Modell(e) bereits vorhanden: %s",
+          "importBatchResult": "Import von %zu Modell(en) fehlgeschlagen: %s.\nErster Fehler: %s",
           "importMoreFailures": " und %zu weitere",
           "importUnknownSource": "unbekannte Quelle",
           "importInvalidSource": "Die ausgewählte Quelle ist nicht mehr vorhanden oder kann nicht verwendet werden",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "Das Modell-Tastenkürzel konnte nicht gespeichert werden. Prüfen Sie die Dateiberechtigungen und den verfügbaren Speicherplatz",
           "behaviorRenameLimit": "Es können keine weiteren benutzerdefinierten Aktionsnamen gespeichert werden. Die maximale Anzahl benutzerdefinierter Einstellungen ist erreicht",
           "clickOrDragToImport": "Modellordner wählen oder ziehen",
-          "supportedImportFormats": "Unterstützt Mver und Tauri",
           "openDirectoryFailed": "Modellordner konnte nicht geöffnet werden"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "Begleiter anzeigen",
         "passThrough": "Klicks durchlassen",
         "alwaysOnTop": "Immer im Vordergrund",
+        "cancelAlwaysOnTop": "Nicht mehr im Vordergrund halten",
         "windowSize": "Fenstergröße",
         "opacity": "Deckkraft",
         "motion": "Bewegungen",

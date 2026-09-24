@@ -71,14 +71,6 @@ bool bongo_cat_preferences_model_import_card(BongoCatPreferences *value,
     text(context, canvas, nk_rect(cx - width * .5f, cy + 25,
         NK_MIN(width + 1, bounds.w - 20), 24), label, p.accent,
         value->ui.caption_font);
-    const char *support = tr(value->app,
-        "pages.preference.model.hints.supportedImportFormats",
-        "Supports Mver and Tauri formats");
-    width = value->ui.caption_font->width(value->ui.caption_font->userdata,
-        value->ui.caption_font->height, support, nk_strlen(support));
-    text(context, canvas, nk_rect(cx - width * .5f, cy + 47,
-        NK_MIN(width + 1, bounds.w - 20), 24), support, p.pink,
-        value->ui.caption_font);
     if (pointer_hover) bongo_cat_ui_cursor_hover_rect(context, bounds,
         BONGO_CAT_UI_CURSOR_POINTER);
     return pointer_hover && nk_input_is_mouse_click_in_rect(&context->input,

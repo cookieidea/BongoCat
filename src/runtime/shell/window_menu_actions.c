@@ -61,7 +61,10 @@ void bongo_cat_window_show_context_menu(BongoCatApp *app) {
         tr(app, "composables.useAppMenu.labels.preference", "Preferences"),
         tr(app, "pages.preference.cat.labels.mirrorMode", "Mirror Mode"),
         tr(app, "pages.preference.cat.labels.verticalFlip", "Hang Upside Down"),
-        tr(app, "composables.useAppMenu.labels.alwaysOnTop", "Always on top"),
+        app->settings.window.always_on_top
+            ? tr(app, "composables.useAppMenu.labels.cancelAlwaysOnTop",
+                "Turn off always on top")
+            : tr(app, "composables.useAppMenu.labels.alwaysOnTop", "Always on top"),
         tr(app, "composables.useAppMenu.labels.windowSize", "Window Size"),
         tr(app, "composables.useAppMenu.labels.opacity", "Opacity"),
         tr(app, "composables.useAppMenu.labels.model", "Model"),

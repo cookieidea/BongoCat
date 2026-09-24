@@ -105,9 +105,9 @@
           "deleteSuccess": "Se eliminó \"%s\"",
           "deleteModel": "¿Seguro que quiere eliminar \"%s\"?",
           "deleteFailed": "No se pudo eliminar este modelo",
-          "importSuccess": "Importado correctamente",
-          "importExists": "El modelo ya existe",
-          "importBatchResult": "Importación correcta: %zu; fallida: %zu.\nModelos fallidos: %s%s.\nPrimer error: %s",
+          "importSuccess": "Se importaron %zu modelos: %s",
+          "importExists": "Ya existen %zu modelos: %s",
+          "importBatchResult": "No se pudieron importar %zu modelos: %s.\nPrimer error: %s",
           "importMoreFailures": " y %zu más",
           "importUnknownSource": "fuente desconocida",
           "importInvalidSource": "La fuente seleccionada ya no existe o no se puede utilizar",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "No se pudo guardar el atajo del modelo. Compruebe los permisos de los archivos y el espacio disponible en el disco",
           "behaviorRenameLimit": "No se pueden guardar más nombres de acciones personalizados. Se ha alcanzado el límite de ajustes personalizados",
           "clickOrDragToImport": "Haz clic o arrastra una carpeta",
-          "supportedImportFormats": "Compatible con Mver y Tauri",
           "openDirectoryFailed": "No se pudo abrir la carpeta del modelo"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "Mostrar mascota",
         "passThrough": "Dejar pasar clics",
         "alwaysOnTop": "Siempre visible",
+        "cancelAlwaysOnTop": "Desactivar siempre visible",
         "windowSize": "Tamaño de la ventana",
         "opacity": "Opacidad",
         "motion": "Movimientos",

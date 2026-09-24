@@ -105,9 +105,9 @@
           "deleteSuccess": "Deleted \"%s\"",
           "deleteModel": "Are you sure you want to delete \"%s\"?",
           "deleteFailed": "Unable to delete this model",
-          "importSuccess": "Imported Successfully",
-          "importExists": "Model already exists",
-          "importBatchResult": "Import succeeded: %zu; failed: %zu.\nFailed models: %s%s.\nFirst failure: %s",
+          "importSuccess": "Imported %zu model(s): %s",
+          "importExists": "%zu model(s) already exist: %s",
+          "importBatchResult": "Failed to import %zu model(s): %s.\nFirst failure: %s",
           "importMoreFailures": " and %zu more",
           "importUnknownSource": "unknown source",
           "importInvalidSource": "The selected source no longer exists or cannot be used",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "Unable to save the model shortcut. Check file permissions and available disk space",
           "behaviorRenameLimit": "Cannot save another custom action name: user override limit reached",
           "clickOrDragToImport": "Click or drag a model folder",
-          "supportedImportFormats": "Supports Mver and Tauri formats",
           "openDirectoryFailed": "Unable to open model directory"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "Show Cat",
         "passThrough": "Pass Through",
         "alwaysOnTop": "Always on Top",
+        "cancelAlwaysOnTop": "Turn Off Always on Top",
         "windowSize": "Window Size",
         "opacity": "Opacity",
         "motion": "Motions",

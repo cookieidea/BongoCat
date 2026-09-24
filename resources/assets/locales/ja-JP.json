@@ -105,9 +105,9 @@
           "deleteSuccess": "「%s」を削除しました",
           "deleteModel": "「%s」を削除しますか？",
           "deleteFailed": "このモデルを削除できません",
-          "importSuccess": "インポートしました",
-          "importExists": "モデルは既に存在します",
-          "importBatchResult": "インポート成功: %zu件、失敗: %zu件。\n失敗したモデル: %s%s。\n最初の失敗理由: %s",
+          "importSuccess": "%zu 個のモデルをインポートしました：%s",
+          "importExists": "%zu 個のモデルは既に存在します：%s",
+          "importBatchResult": "%zu 個のモデルのインポートに失敗しました：%s。\n最初のエラー：%s",
           "importMoreFailures": "、他%zu件",
           "importUnknownSource": "不明なソース",
           "importInvalidSource": "選択したインポート元は存在しないか、使用できません",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "モデルのショートカットを保存できません。ファイルの権限とディスクの空き容量を確認してください",
           "behaviorRenameLimit": "カスタム設定数の上限に達したため、これ以上アクションのカスタム名を保存できません",
           "clickOrDragToImport": "モデルフォルダーをクリックまたはドラッグ",
-          "supportedImportFormats": "Mver・Tauri形式に対応",
           "openDirectoryFailed": "モデルフォルダーを開けません"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "ペットを表示",
         "passThrough": "クリックを透過",
         "alwaysOnTop": "常に手前に表示",
+        "cancelAlwaysOnTop": "常に手前に表示を解除",
         "windowSize": "ウィンドウサイズ",
         "opacity": "不透明度",
         "motion": "モーション",

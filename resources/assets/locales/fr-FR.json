@@ -105,9 +105,9 @@
           "deleteSuccess": "« %s » a été supprimé",
           "deleteModel": "Voulez-vous vraiment supprimer \"%s\" ?",
           "deleteFailed": "Impossible de supprimer ce modèle",
-          "importSuccess": "Importation réussie",
-          "importExists": "Le modèle existe déjà",
-          "importBatchResult": "Importations réussies : %zu ; échecs : %zu.\nModèles en échec : %s%s.\nPremier échec : %s",
+          "importSuccess": "%zu modèle(s) importé(s) : %s",
+          "importExists": "%zu modèle(s) déjà présent(s) : %s",
+          "importBatchResult": "Échec de l’importation de %zu modèle(s) : %s.\nPremière erreur : %s",
           "importMoreFailures": " et %zu autre(s)",
           "importUnknownSource": "source inconnue",
           "importInvalidSource": "La source sélectionnée n'existe plus ou ne peut pas être utilisée",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "Impossible d’enregistrer le raccourci du modèle. Vérifiez les autorisations des fichiers et l’espace disque disponible",
           "behaviorRenameLimit": "Impossible d’enregistrer davantage de noms d’actions personnalisés. La limite de paramètres personnalisés est atteinte",
           "clickOrDragToImport": "Cliquez ou déposez un dossier",
-          "supportedImportFormats": "Formats Mver et Tauri pris en charge",
           "openDirectoryFailed": "Impossible d'ouvrir le dossier du modèle"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "Afficher le compagnon",
         "passThrough": "Clics traversants",
         "alwaysOnTop": "Toujours au premier plan",
+        "cancelAlwaysOnTop": "Ne plus garder au premier plan",
         "windowSize": "Taille de la fenêtre",
         "opacity": "Opacité",
         "motion": "Mouvements",

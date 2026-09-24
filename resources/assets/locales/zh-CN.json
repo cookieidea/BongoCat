@@ -105,9 +105,9 @@
           "deleteSuccess": "已删除“%s”",
           "deleteModel": "你确定要删除“%s”吗？",
           "deleteFailed": "无法删除此模型",
-          "importSuccess": "导入成功",
-          "importExists": "模型已存在，无需重复导入",
-          "importBatchResult": "导入成功 %zu 个，导入失败 %zu 个。\n失败模型：%s%s。\n首个失败原因：%s",
+          "importSuccess": "导入成功 %zu 个模型：%s",
+          "importExists": "已存在 %zu 个模型，无需重复导入：%s",
+          "importBatchResult": "导入失败 %zu 个模型：%s。\n首个失败原因：%s",
           "importMoreFailures": "等其余 %zu 个",
           "importUnknownSource": "未知来源",
           "importInvalidSource": "所选来源已不存在或无法使用",
@@ -122,7 +122,6 @@
           "shortcutSaveFailed": "无法保存模型快捷键，请检查文件权限和可用磁盘空间",
           "behaviorRenameLimit": "无法保存更多自定义动作名称，已达到自定义设置数量上限",
           "clickOrDragToImport": "点击或拖入模型文件夹",
-          "supportedImportFormats": "同时支持 Mver 和 Tauri 格式",
           "openDirectoryFailed": "无法打开模型目录"
         },
         "tooltips": {
@@ -193,6 +192,7 @@
         "showCat": "显示",
         "passThrough": "鼠标穿透",
         "alwaysOnTop": "置顶",
+        "cancelAlwaysOnTop": "取消置顶",
         "windowSize": "大小",
         "opacity": "透明度",
         "motion": "动作",
