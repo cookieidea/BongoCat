@@ -34,6 +34,10 @@ void bongo_cat_platform_set_click_through(BongoCatPlatform *platform,
         pointer_transparent);
 }
 
+bool bongo_cat_platform_native_hit_test(const BongoCatPlatform *platform) {
+    return bongo_cat_windows_layered_native_hit_test(platform);
+}
+
 void bongo_cat_platform_raise_window(SDL_Window *window) {
     if (!window) return;
     SDL_ShowWindow(window);

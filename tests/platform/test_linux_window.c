@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 int bongo_cat_test_failures;
+void bongo_cat_test_linux_click_through(BongoCatApp *app);
 
 int main(int argc, char **argv) {
     BongoCatApp *app = calloc(1, sizeof(*app));
@@ -47,6 +48,7 @@ int main(int argc, char **argv) {
         bongo_cat_window_set_visible(app, true);
     }
     CHECK(!app->startup_visibility_pending && app->session.window.visible);
+    bongo_cat_test_linux_click_through(app);
     bongo_cat_app_shutdown(app, "test:complete", bongo_cat_test_failures ? 1 : 0);
     free(app);
     return bongo_cat_test_failures ? 1 : 0;

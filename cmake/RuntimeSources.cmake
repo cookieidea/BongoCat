@@ -305,6 +305,7 @@ set(BONGO_CAT_UI_PREFERENCES_SOURCES
 set(BONGO_CAT_RUNTIME_SOURCES
   src/core/app_state.c
   src/platform/common/memory.c
+  src/platform/common/gl_readback.c
   src/platform/common/update_shutdown.c
   ${BONGO_CAT_MEDIA_SOURCES}
   ${BONGO_CAT_RENDER_SOURCES}

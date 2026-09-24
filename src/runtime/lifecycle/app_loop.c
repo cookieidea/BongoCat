@@ -102,7 +102,7 @@ static bool render(BongoCatApp *app, bool present) {
     bongo_cat_window_mask_corners(app, width, height);
     bongo_cat_diagnostics_phase("frame-readback-and-hit-test");
     bongo_cat_frame_audit(app, width, height);
-    bongo_cat_window_capture_pointer_hit(app);
+    bongo_cat_window_capture_pointer_hit(app, true);
     /* Keep the native window hidden while diagnostics/readback finish. The
        reveal is intentionally adjacent to the swap so an uninitialised front
        buffer cannot be displayed as a black startup frame. */

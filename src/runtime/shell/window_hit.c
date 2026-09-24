@@ -1,9 +1,15 @@
 #include "runtime.h"
 #include "bongo_cat/preferences.h"
+#include "../../platform/common/gl_readback.h"
 
 #include <SDL3/SDL_opengl.h>
 
-bool bongo_cat_window_visible_at_pointer(BongoCatApp *app, float x, float y) {
+static bool needs_pointer_hit_sample(const BongoCatApp *app) {
+    return !bongo_cat_platform_native_hit_test(&app->platform) &&
+        bongo_cat_platform_dynamic_hit_supported();
+}
+
+static bool visible_at_pointer(BongoCatApp *app, float x, float y, bool pending_frame) {
     if (app->window_snapshot) return bongo_cat_window_snapshot_hit(app, x, y);
     int width, height, pixel_width, pixel_height;
     if (!SDL_GetWindowSize(app->window, &width, &height) ||
@@ -24,40 +30,39 @@ bool bongo_cat_window_visible_at_pointer(BongoCatApp *app, float x, float y) {
     int pixel_y = pixel_height - 1 -
         SDL_clamp((int)(y * pixel_height / height), 0, pixel_height - 1);
     uint8_t presented_alpha = 0;
-    if (bongo_cat_platform_frame_alpha(&app->platform, pixel_width, pixel_height,
+    if (!pending_frame && bongo_cat_platform_frame_alpha(&app->platform, pixel_width, pixel_height,
         pixel_x, pixel_y, &presented_alpha)) return presented_alpha > 8;
     SDL_Window *previous_window = SDL_GL_GetCurrentWindow();
     SDL_GLContext previous_context = SDL_GL_GetCurrentContext();
     bool switch_context = previous_window != app->window ||
         previous_context != app->gl_context;
-    if (switch_context && !SDL_GL_MakeCurrent(app->window, app->gl_context)) return false;
-    GLint previous_buffer;
+    if (switch_context && !SDL_GL_MakeCurrent(app->window, app->gl_context)) return true;
     GLubyte pixel[4] = {0};
-    glGetIntegerv(GL_READ_BUFFER, &previous_buffer);
-    glReadBuffer(GL_FRONT);
-    glReadPixels(pixel_x, pixel_y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
-    if (pixel[3] <= 8) {
-        glReadBuffer(GL_BACK);
-        glReadPixels(pixel_x, pixel_y, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, pixel);
-    }
-    glReadBuffer((GLenum)previous_buffer);
+    /* Before swap, only GL_BACK describes the frame about to be displayed.
+       Falling back just because alpha is zero resurrects pixels from an old
+       frame and leaves moving models' empty areas blocking the mouse. */
+    bool read = bongo_cat_gl_read_window(pixel_x, pixel_y, 1, 1, pending_frame, pixel);
     if (switch_context && previous_window && previous_context)
         SDL_GL_MakeCurrent(previous_window, previous_context);
-    return pixel[3] > 8;
+    return !read || pixel[3] > 8;
 }
 
-void bongo_cat_window_capture_pointer_hit(BongoCatApp *app) {
+bool bongo_cat_window_visible_at_pointer(BongoCatApp *app, float x, float y) {
+    return visible_at_pointer(app, x, y, false);
+}
+
+void bongo_cat_window_capture_pointer_hit(BongoCatApp *app, bool pending_frame) {
     /* Backends without dynamic hit testing would discard the readback, so the
        alpha sample would only stall the pipeline for every presented frame. */
     if (!app || !app->window || !app->pointer_known ||
-        !bongo_cat_platform_dynamic_hit_supported() ||
+        !needs_pointer_hit_sample(app) ||
         app->settings.window.pass_through || app->hover_hidden ||
         app->left_mouse_down || app->right_mouse_down) return;
     float local_x, local_y;
     bool inside = bongo_cat_platform_pointer_local(&app->platform,
         app->pointer_x, app->pointer_y, &local_x, &local_y);
     app->pointer_transparent = inside &&
-        !bongo_cat_window_visible_at_pointer(app, local_x, local_y);
+        !visible_at_pointer(app, local_x, local_y, pending_frame);
     app->pointer_hit_dirty = false;
     app->pointer_hit_deadline_ns = 0;
 }
@@ -120,7 +125,7 @@ void bongo_cat_window_raise_when_due(BongoCatApp *app, uint64_t now) {
 }
 
 void bongo_cat_window_schedule_pointer_hit(BongoCatApp *app) {
-    if (!app) return;
+    if (!app || !needs_pointer_hit_sample(app)) return;
     uint64_t deadline = SDL_GetTicksNS() + 8000000ull;
     if (!app->pointer_hit_dirty) {
         app->pointer_hit_dirty = true;
@@ -132,7 +137,8 @@ void bongo_cat_window_schedule_pointer_hit(BongoCatApp *app) {
 }
 
 void bongo_cat_window_schedule_hit_check(BongoCatApp *app) {
-    if (!app || app->pointer_hit_dirty || !app->pointer_known) return;
+    if (!app || app->pointer_hit_dirty || !app->pointer_known ||
+        !needs_pointer_hit_sample(app)) return;
     app->pointer_hit_dirty = true;
     app->pointer_hit_deadline_ns = SDL_GetTicksNS() + 100000000ull;
 }
@@ -142,9 +148,10 @@ void bongo_cat_window_sync_click_through(BongoCatApp *app) {
     bool forced = app->settings.window.pass_through || app->hover_hidden;
     if (forced) bongo_cat_window_resize_end(app);
     if (forced && app->window_snapshot) bongo_cat_window_snapshot_end(app);
-    if (!forced && !bongo_cat_platform_dynamic_hit_supported()) {
+    if (!forced && !needs_pointer_hit_sample(app)) {
         app->pointer_transparent = false;
         app->pointer_hit_dirty = false;
+        app->pointer_hit_deadline_ns = 0;
     }
     if (!forced && (app->left_mouse_down || app->right_mouse_down)) return;
     if (!forced && app->session.window.visible && app->pointer_known &&

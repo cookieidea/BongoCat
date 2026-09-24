@@ -1,4 +1,16 @@
 if(BUILD_TESTING)
+  add_executable(bongo_cat_gl_readback_tests tests/platform/test_gl_readback.c)
+  target_include_directories(bongo_cat_gl_readback_tests PRIVATE tests/support)
+  target_link_libraries(bongo_cat_gl_readback_tests PRIVATE SDL3::SDL3-static bongo_cat_warnings)
+  add_test(NAME window-gl-readback COMMAND bongo_cat_gl_readback_tests)
+  add_executable(bongo_cat_input_shape_tests tests/platform/test_linux_shape.c)
+  target_include_directories(bongo_cat_input_shape_tests PRIVATE
+    src/platform/linux tests/support include "${BONGO_CAT_GENERATED_INCLUDE_DIR}")
+  target_link_libraries(bongo_cat_input_shape_tests PRIVATE SDL3::SDL3-static bongo_cat_warnings)
+  if(MSVC)
+    target_compile_options(bongo_cat_input_shape_tests PRIVATE /experimental:c11atomics)
+  endif()
+  add_test(NAME input-shape-mask COMMAND bongo_cat_input_shape_tests)
   add_executable(bongo_cat_mask_policy_tests tests/live2d/test_mask_policy.cpp)
   target_include_directories(bongo_cat_mask_policy_tests PRIVATE src/live2d tests/support)
   target_link_libraries(bongo_cat_mask_policy_tests PRIVATE bongo_cat_warnings)
@@ -34,11 +46,12 @@ if(BUILD_TESTING)
       bongo_cat_runtime bongo_cat_warnings)
     add_test(NAME linux-evdev COMMAND bongo_cat_linux_evdev_tests)
     set_tests_properties(linux-evdev PROPERTIES TIMEOUT 15)
-    add_executable(bongo_cat_linux_window_tests tests/platform/test_linux_window.c)
+    add_executable(bongo_cat_linux_window_tests tests/platform/test_linux_window.c
+      tests/platform/test_linux_click_through.c)
     target_include_directories(bongo_cat_linux_window_tests PRIVATE
       ${BONGO_CAT_RUNTIME_INTERNAL_INCLUDE_DIRS} tests/support)
     target_link_libraries(bongo_cat_linux_window_tests PRIVATE
-      bongo_cat_runtime bongo_cat_warnings)
+      bongo_cat_runtime bongo_cat_warnings X11::X11 X11::Xfixes X11::Xext)
     add_test(NAME linux-window COMMAND bongo_cat_linux_window_tests
       --ci-smoke --ci-ignore-global-input
       "--storage-root=${CMAKE_CURRENT_BINARY_DIR}/linux-window-data")
@@ -317,6 +330,8 @@ if(BUILD_TESTING)
   if(APPLE)
     add_executable(bongo_cat_macos_click_through_tests
       tests/platform/test_macos_click_through.m)
+    target_include_directories(bongo_cat_macos_click_through_tests PRIVATE
+      ${BONGO_CAT_RUNTIME_INTERNAL_INCLUDE_DIRS})
     target_link_libraries(bongo_cat_macos_click_through_tests PRIVATE
       bongo_cat_runtime bongo_cat_warnings)
     add_test(NAME macos-click-through COMMAND bongo_cat_macos_click_through_tests)
@@ -326,7 +341,8 @@ if(BUILD_TESTING)
 
   if(WIN32)
     add_executable(bongo_cat_windows_presentation_tests
-      tests/platform/test_windows_presentation.c)
+      tests/platform/test_windows_presentation.c
+      tests/platform/test_windows_click_through.c)
     target_include_directories(bongo_cat_windows_presentation_tests PRIVATE
       src/platform/windows src/ui/rendering tests/support)
     target_link_libraries(bongo_cat_windows_presentation_tests PRIVATE

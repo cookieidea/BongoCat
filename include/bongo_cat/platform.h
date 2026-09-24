@@ -128,6 +128,8 @@ bool bongo_cat_platform_set_geometry(BongoCatPlatform *platform,
 void bongo_cat_platform_begin_drag(BongoCatPlatform *platform,
     BongoCatModalTick modal_tick, void *userdata);
 bool bongo_cat_platform_dynamic_hit_supported(void);
+/* True when the displayed shape is routed without cursor-position polling. */
+bool bongo_cat_platform_native_hit_test(const BongoCatPlatform *platform);
 void bongo_cat_platform_set_tray_callbacks(void *tray,
     BongoCatTrayClick left_click, BongoCatModalTick modal_tick,
     BongoCatTrayRestore restore, void *userdata);

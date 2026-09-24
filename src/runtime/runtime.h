@@ -45,7 +45,7 @@ void bongo_cat_window_destroy(BongoCatApp *app);
 void bongo_cat_window_apply(BongoCatApp *app);
 bool bongo_cat_window_event(BongoCatApp *app, const SDL_Event *event);
 bool bongo_cat_window_visible_at_pointer(BongoCatApp *app, float x, float y);
-void bongo_cat_window_capture_pointer_hit(BongoCatApp *app);
+void bongo_cat_window_capture_pointer_hit(BongoCatApp *app, bool pending_frame);
 void bongo_cat_window_mark_hit_dirty(BongoCatApp *app);
 void bongo_cat_window_set_visible(BongoCatApp *app, bool visible);
 void bongo_cat_window_raise_when_due(BongoCatApp *app, uint64_t now);
