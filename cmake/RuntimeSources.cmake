@@ -181,6 +181,7 @@ set(BONGO_CAT_RUNTIME_SHELL_SOURCES
   src/runtime/shell/tray.c
   src/runtime/shell/window.c
   src/runtime/shell/window_background.c
+  src/runtime/shell/window_corners.c
   src/runtime/shell/window_display.c
   src/runtime/shell/window_drag.c
   src/runtime/shell/window_geometry.c

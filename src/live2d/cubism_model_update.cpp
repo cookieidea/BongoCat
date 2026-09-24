@@ -15,7 +15,22 @@ void NativeModel::update_geometry() {
     /* CubismModel::Update resets Core's change flags before returning. Observe
        them between those two calls, then preserve the SDK's reset semantics. */
     auto *core = _model->GetModel();
+    /* The bundled cats move their glasses/cigarette off canvas at Param4=0.
+       Fade that part with the actual animated parameter so an expanded window
+       cannot expose the parked meshes. Apply before Core evaluates geometry so
+       rendering, frame measurement and cover capture all see the same opacity.
+       Restore the authored part value afterwards to avoid accumulating the fade
+       or contaminating motion/preview state. */
+    float accessory_opacity = 1.0f;
+    if (builtin_accessory_part_ >= 0) {
+        accessory_opacity = _model->GetPartOpacity(builtin_accessory_part_);
+        float weight = std::clamp(
+            _model->GetParameterValue(builtin_accessory_parameter_), 0.0f, 1.0f);
+        _model->SetPartOpacity(builtin_accessory_part_, accessory_opacity * weight);
+    }
     Live2D::Cubism::Core::csmUpdateModel(core);
+    if (builtin_accessory_part_ >= 0)
+        _model->SetPartOpacity(builtin_accessory_part_, accessory_opacity);
     visual_state_cached_ = false;
     /* OR across simulation substeps: Core's last-step flags alone can lose a
        change when several updates precede one rendered frame. */

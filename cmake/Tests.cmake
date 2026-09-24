@@ -1,4 +1,9 @@
 if(BUILD_TESTING)
+  add_executable(bongo_cat_window_corner_tests tests/platform/test_window_corners.c)
+  target_include_directories(bongo_cat_window_corner_tests PRIVATE
+    src/runtime/shell tests/support)
+  target_link_libraries(bongo_cat_window_corner_tests PRIVATE bongo_cat_warnings)
+  add_test(NAME window-corner-policy COMMAND bongo_cat_window_corner_tests)
   add_executable(bongo_cat_gl_readback_tests tests/platform/test_gl_readback.c)
   target_include_directories(bongo_cat_gl_readback_tests PRIVATE tests/support)
   target_link_libraries(bongo_cat_gl_readback_tests PRIVATE SDL3::SDL3-static bongo_cat_warnings)
