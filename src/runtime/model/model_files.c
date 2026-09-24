@@ -258,6 +258,7 @@ static bool select_model_with_error(BongoCatApp *app, const char *id,
         pointer_x.maximum > pointer_x.minimum &&
         pointer_y.maximum > pointer_y.minimum;
     app->model_render_options = render_options;
+    app->frame_geometry_retry_ns = 0;
     bongo_cat_app_reset_pointer_tracking(app);
     bongo_cat_live2d_set_render_options(app->live2d, &render_options);
     if (app->loaded_model[0] && app->behavior_catalog_valid) {

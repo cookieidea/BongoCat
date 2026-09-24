@@ -55,6 +55,8 @@ public:
     void release_render_resources();
     bool canvas_size(int *width, int *height) const;
     bool frame(BongoCatLive2DFrame *frame) const;
+    bool measure_frame(BongoCatLive2DFrame *required);
+    void set_frame(const BongoCatLive2DFrame &frame);
     bool viewport(int *x, int *y, int *width, int *height) const;
     void resize(int width, int height);
     void reshape(int width, int height);
@@ -122,6 +124,11 @@ private:
         bool valid = false;
     };
     struct DrawableBounds { ModelBounds bounds; float area; };
+    struct FrameDrawable {
+        std::vector<unsigned short> vertices;
+        ModelBounds bounds;
+        bool dirty = true;
+    };
     bool load_model(BongoCatError *error);
     void load_expressions();
     void load_effects();
@@ -130,6 +137,7 @@ private:
     void update_geometry();
     ModelBounds capture_visible_bounds() const;
     void prepare_expression_frame();
+    void prepare_frame_bounds();
     void build_projection(Csm::CubismMatrix44 &projection,
         int width, int height);
     void apply_viewport_projection(Csm::CubismMatrix44 &projection) const;
@@ -182,6 +190,7 @@ private:
     std::vector<std::shared_ptr<ModelTexture>> textures_;
     mutable std::vector<std::vector<unsigned char>> triangle_alpha_;
     mutable std::vector<DrawableBounds> bounds_scratch_;
+    std::vector<FrameDrawable> frame_drawables_;
     std::vector<float> parameter_snapshot_;
     std::vector<float> part_snapshot_;
     std::vector<float> parameter_override_values_;
@@ -214,6 +223,9 @@ private:
     bool expression_clearing_ = false;
     bool expression_frame_pending_ = false;
     BongoCatLive2DFrame frame_{};
+    BongoCatLive2DFrame required_frame_{};
+    float frame_fit_scale_ = 1.0f;
+    bool frame_prepared_ = false;
     mutable BongoCatLive2DVisualState visual_state_{};
     mutable Csm::CubismMatrix44 visual_projection_;
     mutable bool visual_state_cached_ = false;

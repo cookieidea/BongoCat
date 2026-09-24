@@ -55,7 +55,8 @@ void NativeModel::draw() {
     }
     apply_viewport_projection(projection);
     visual_state_ = BongoCatLive2DVisualState{};
-    visual_state_.fit_scale = 1.0f;
+    visual_state_.fit_scale = frame_fit_scale_;
+    visual_state_.fitted = frame_fit_scale_ < 0.9999f;
     visual_state_.mver_projection = render_options_.mver_projection;
     visual_projection_.SetMatrix(projection.GetArray());
     visual_state_cached_ = false;

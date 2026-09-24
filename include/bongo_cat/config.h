@@ -81,9 +81,13 @@ typedef struct BongoCatWindowState {
     int width;
     int height;
     /* The authored composition size inside width/height.  The outer window
-       may be larger to hold expression geometry outside the base canvas. */
+       may be larger to hold animated geometry outside the base canvas. */
     int content_width;
     int content_height;
+    /* Physical top-left inset, retained so resetting the learned motion frame
+       at startup does not move the content origin on the desktop. */
+    int content_left;
+    int content_top;
 } BongoCatWindowState;
 
 typedef struct BongoCatApplicationPreferences {

@@ -45,6 +45,15 @@ static bool render(BongoCatApp *app, bool present) {
     }
     app->render_retry_ns = 0;
     bongo_cat_window_apply_pending_resize(app);
+    bongo_cat_live2d_set_vertical_flip(app->live2d, app->settings.model.vertical_flip);
+    bongo_cat_live2d_set_mirror(app->live2d, app->settings.model.mirror);
+    bool cover_requested = !present && bongo_cat_model_cover_pending(app);
+    bool cover_ready = !cover_requested ||
+        bongo_cat_live2d_prepare_cover_capture(app->live2d);
+    /* Measure the final pose and allocate its frame before clearing/drawing,
+       so newly revealed motion geometry is protected on its first frame. */
+    bongo_cat_window_update_model_frame(app);
+    bongo_cat_window_apply_pending_resize(app);
     int width, height;
     SDL_GetWindowSizeInPixels(app->window, &width, &height);
     glViewport(0, 0, width, height);
@@ -52,7 +61,6 @@ static bool render(BongoCatApp *app, bool present) {
     glDisable(GL_SCISSOR_TEST);
     glColorMask(GL_TRUE, GL_TRUE, GL_TRUE, GL_TRUE);
     bongo_cat_window_clear_background(app);
-    bongo_cat_live2d_set_vertical_flip(app->live2d, app->settings.model.vertical_flip);
     int content_x = 0, content_y = 0, content_width = width,
         content_height = height;
     bool content_viewport = bongo_cat_live2d_viewport(app->live2d,
@@ -63,11 +71,7 @@ static bool render(BongoCatApp *app, bool present) {
     bongo_cat_overlay_set_vertical_flip(app->overlay, app->settings.model.vertical_flip);
     bongo_cat_overlay_draw_background(app->overlay,
         app->settings.model.mirror);
-    bool cover_requested = !present && bongo_cat_model_cover_pending(app);
-    bool cover_ready = !cover_requested ||
-        bongo_cat_live2d_prepare_cover_capture(app->live2d);
     glViewport(0, 0, width, height);
-    bongo_cat_live2d_set_mirror(app->live2d, app->settings.model.mirror);
     bongo_cat_diagnostics_phase("model-draw");
     if (app->loaded_model[0]) bongo_cat_live2d_draw(app->live2d);
     bongo_cat_diagnostics_phase("overlay-draw");

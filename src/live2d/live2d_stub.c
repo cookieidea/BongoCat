@@ -114,6 +114,17 @@ bool bongo_cat_live2d_texture_refresh_due(const BongoCatLive2D *live2d,
     bool active, bool allow_start) {
     (void)live2d; (void)active; (void)allow_start; return false;
 }
+
+bool bongo_cat_live2d_measure_frame(BongoCatLive2D *live2d,
+    BongoCatLive2DFrame *required) {
+    (void)live2d; (void)required;
+    return false;
+}
+
+void bongo_cat_live2d_set_frame(BongoCatLive2D *live2d,
+    const BongoCatLive2DFrame *frame) {
+    (void)live2d; (void)frame;
+}
 bool bongo_cat_live2d_refresh_textures(BongoCatLive2D *live2d,
     bool active, bool allow_start) {
     (void)live2d; (void)active; (void)allow_start; return false;

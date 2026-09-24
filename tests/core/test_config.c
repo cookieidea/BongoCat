@@ -82,6 +82,8 @@ void test_config(void) {
     session.window.height = 500;
     session.window.content_width = 612;
     session.window.content_height = 354;
+    session.window.content_left = 44;
+    session.window.content_top = 96;
     memcpy(session.active_model_id, "model", sizeof("model"));
     session.last_update_check_day = 20260827;
     memcpy(session.last_update_check_version, "0.1.0", sizeof("0.1.0"));
@@ -163,7 +165,9 @@ void test_config(void) {
         loaded_session.window.width == 700 &&
         loaded_session.window.height == 500 &&
         loaded_session.window.content_width == 612 &&
-        loaded_session.window.content_height == 354);
+        loaded_session.window.content_height == 354 &&
+        loaded_session.window.content_left == 44 &&
+        loaded_session.window.content_top == 96);
     CHECK(strcmp(loaded_session.active_model_id, "model") == 0);
     CHECK(loaded_session.last_update_check_day == 20260827 &&
         strcmp(loaded_session.last_update_check_version, "0.1.0") == 0);
@@ -249,7 +253,8 @@ void test_config(void) {
     bongo_cat_session_defaults(&loaded_session);
     CHECK(bongo_cat_session_load(unsupported, &loaded_session, &error) ==
         BONGO_CAT_OK && loaded_session.window.content_width == 700 &&
-        loaded_session.window.content_height == 500);
+        loaded_session.window.content_height == 500 &&
+        loaded_session.window.content_left == 0 && loaded_session.window.content_top == 0);
 
     static BongoCatSettings canonical_settings;
     static BongoCatSessionState canonical_session;

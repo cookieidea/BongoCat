@@ -185,6 +185,7 @@ void NativeModel::release_textures() {
     cancel_texture_refresh();
     textures_.clear();
     triangle_alpha_.clear();
+    frame_drawables_.clear();
 }
 
 const BongoCatImageAlphaMask *NativeModel::texture_alpha(int index) const {
@@ -231,7 +232,11 @@ bool NativeModel::load_textures(BongoCatError *error,
         if (progress) progress(userdata, .50f + .45f * (float)(i + 1) /
             (float)(count > 0 ? count : 1));
     }
-    prepare_expression_frame();
+    if (!frame_prepared_) {
+        prepare_expression_frame();
+        frame_prepared_ = true;
+    }
+    prepare_frame_bounds();
     release_renderer();
     if (!create_renderer(error)) {
         release_textures();

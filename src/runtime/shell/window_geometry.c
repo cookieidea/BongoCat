@@ -40,7 +40,8 @@ bool bongo_cat_window_frame_size(BongoCatApp *app,
     *width = round_dimension(frame_width);
     *height = round_dimension(frame_height);
     if (left) *left = round_dimension(content_width * frame.left);
-    if (top) *top = round_dimension(content_height * frame.top);
+    if (top) *top = round_dimension(content_height *
+        (app && app->settings.model.vertical_flip ? frame.bottom : frame.top));
     return true;
 }
 

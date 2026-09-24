@@ -171,6 +171,14 @@ bool bongo_cat_live2d_canvas_size(const BongoCatLive2D *live2d,
     int *width, int *height);
 bool bongo_cat_live2d_frame(const BongoCatLive2D *live2d,
     BongoCatLive2DFrame *frame);
+/* Inspect current CPU geometry before drawing. Updates the retained envelope
+   and fits it inside the allocated frame until the window can grow. No GL
+   readback, animation advancement, or native window operations. */
+bool bongo_cat_live2d_measure_frame(BongoCatLive2D *live2d,
+    BongoCatLive2DFrame *required);
+/* Commit only the transparent margins that the native window can allocate. */
+void bongo_cat_live2d_set_frame(BongoCatLive2D *live2d,
+    const BongoCatLive2DFrame *frame);
 bool bongo_cat_live2d_viewport(const BongoCatLive2D *live2d,
     int *x, int *y, int *width, int *height);
 void bongo_cat_live2d_resize(BongoCatLive2D *live2d, int width, int height);

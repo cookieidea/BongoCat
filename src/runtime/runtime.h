@@ -59,6 +59,10 @@ bool bongo_cat_wait_event(SDL_Event *event, int timeout_ms);
 bool bongo_cat_app_step_live2d(BongoCatApp *app, float elapsed_seconds);
 void bongo_cat_window_sync_click_through(BongoCatApp *app);
 void bongo_cat_window_apply_pending_resize(BongoCatApp *app);
+void bongo_cat_window_update_model_frame(BongoCatApp *app);
+void bongo_cat_window_store_content_origin(BongoCatApp *app);
+void bongo_cat_window_limit_initial_frame(BongoCatApp *app,
+    int content_width, int content_height);
 void bongo_cat_window_wheel(BongoCatApp *app, const SDL_MouseWheelEvent *event);
 void bongo_cat_window_update_wheel_animation(BongoCatApp *app, uint64_t now);
 void bongo_cat_window_cancel_wheel_animation(BongoCatApp *app);

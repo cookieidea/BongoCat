@@ -200,6 +200,16 @@ extern "C" bool bongo_cat_live2d_texture_refresh_due(const BongoCatLive2D *runti
     bool active, bool allow_start) {
     return runtime && runtime->model && runtime->model->texture_refresh_due(active, allow_start);
 }
+
+extern "C" bool bongo_cat_live2d_measure_frame(BongoCatLive2D *runtime,
+    BongoCatLive2DFrame *required) {
+    return runtime && runtime->model && runtime->model->measure_frame(required);
+}
+
+extern "C" void bongo_cat_live2d_set_frame(BongoCatLive2D *runtime,
+    const BongoCatLive2DFrame *frame) {
+    if (runtime && runtime->model && frame) runtime->model->set_frame(*frame);
+}
 extern "C" bool bongo_cat_live2d_refresh_textures(BongoCatLive2D *runtime,
     bool active, bool allow_start) {
     return runtime && runtime->model && runtime->model->refresh_texture_resolution(active, allow_start);

@@ -15,6 +15,23 @@ if(BUILD_TESTING)
   target_include_directories(bongo_cat_mask_policy_tests PRIVATE src/live2d tests/support)
   target_link_libraries(bongo_cat_mask_policy_tests PRIVATE bongo_cat_warnings)
   add_test(NAME live2d-mask-policy COMMAND bongo_cat_mask_policy_tests)
+  add_executable(bongo_cat_frame_policy_tests tests/live2d/test_frame_policy.cpp)
+  target_include_directories(bongo_cat_frame_policy_tests PRIVATE
+    src/live2d tests/support include "${BONGO_CAT_GENERATED_INCLUDE_DIR}")
+  target_link_libraries(bongo_cat_frame_policy_tests PRIVATE bongo_cat_warnings)
+  add_test(NAME live2d-frame-policy COMMAND bongo_cat_frame_policy_tests)
+  add_executable(bongo_cat_window_frame_tests tests/platform/test_window_frame.c)
+  target_include_directories(bongo_cat_window_frame_tests PRIVATE
+    tests/support ${BONGO_CAT_RUNTIME_INTERNAL_INCLUDE_DIRS})
+  target_link_libraries(bongo_cat_window_frame_tests PRIVATE
+    bongo_cat_core SDL3::SDL3-static bongo_cat_warnings)
+  if(MSVC)
+    target_compile_options(bongo_cat_window_frame_tests PRIVATE /experimental:c11atomics)
+  endif()
+  if(UNIX AND NOT APPLE)
+    target_link_libraries(bongo_cat_window_frame_tests PRIVATE m)
+  endif()
+  add_test(NAME window-motion-frame COMMAND bongo_cat_window_frame_tests)
   add_test(NAME cubism-texture-sampling COMMAND ${CMAKE_COMMAND}
     "-DROOT=${CMAKE_CURRENT_SOURCE_DIR}"
     "-DSDK=${BONGO_CAT_CUBISM_SDK}"

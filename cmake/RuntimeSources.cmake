@@ -184,6 +184,7 @@ set(BONGO_CAT_RUNTIME_SHELL_SOURCES
   src/runtime/shell/window_display.c
   src/runtime/shell/window_drag.c
   src/runtime/shell/window_geometry.c
+  src/runtime/shell/window_frame.c
   src/runtime/shell/window_hit.c
   src/runtime/shell/window_menu_actions.c
   src/runtime/shell/window_menu_behavior.c

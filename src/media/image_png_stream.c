@@ -206,7 +206,12 @@ static bool decode_png(FILE *file, PngRows *png) {
             unsigned count = length < sizeof(input) ? length : (unsigned)sizeof(input);
             if (!read_exact(file, input, count)) return false;
             crc = mz_crc32(crc, input, count);
-            if (idat && !inflate_bytes(png, input, count)) return false;
+            if (idat) {
+                bool inflated = inflate_bytes(png, input, count);
+                png->inflater.next_in = NULL;
+                png->inflater.avail_in = 0;
+                if (!inflated) return false;
+            }
             length -= count;
             if (!idat && png->progress)
                 png->progress(png->userdata, (float)png->row / png->height);

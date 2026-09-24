@@ -12,8 +12,17 @@
 namespace bongo_cat {
 
 void NativeModel::update_geometry() {
-    _model->Update();
+    /* CubismModel::Update resets Core's change flags before returning. Observe
+       them between those two calls, then preserve the SDK's reset semantics. */
+    auto *core = _model->GetModel();
+    Live2D::Cubism::Core::csmUpdateModel(core);
     visual_state_cached_ = false;
+    /* OR across simulation substeps: Core's last-step flags alone can lose a
+       change when several updates precede one rendered frame. */
+    for (size_t i = 0; i < frame_drawables_.size(); ++i)
+        if (_model->GetDrawableDynamicFlagVertexPositionsDidChange((int)i))
+            frame_drawables_[i].dirty = true;
+    Live2D::Cubism::Core::csmResetDrawableDynamicFlags(core);
 }
 
 static bool changed(std::vector<float> &snapshot, int count, const float *values) {

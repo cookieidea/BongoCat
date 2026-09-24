@@ -205,6 +205,14 @@ bool NativeModel::refresh_texture_resolution(bool active, bool allow_start) {
                 }
                 bind_textures();
                 triangle_alpha_.clear();
+                /* A higher-resolution atlas can reveal thin details that the
+                   previous alpha mask could not represent. */
+                try {
+                    prepare_frame_bounds();
+                } catch (const std::bad_alloc &) {
+                    /* Raw vertices remain a safe, allocation-free fallback. */
+                    frame_drawables_.clear();
+                }
                 visual_state_cached_ = false;
                 if (previous && previous.use_count() == 1)
                     refresh.delete_requested_mib = bongo_cat_model_texture_mib(

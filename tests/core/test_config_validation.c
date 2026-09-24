@@ -48,6 +48,8 @@ static void check_defaults_and_validation(void) {
     settings.window.random_motion_interval_seconds = NAN;
     session.window.scale_percent = -2.0f;
     session.window.opacity_percent = NAN;
+    session.window.content_left = 10000;
+    session.window.content_top = -100;
     session.active_behavior_count = 3;
     memcpy(session.active_behaviors[0].model_id, "model", sizeof("model"));
     memcpy(session.active_behaviors[0].behavior_id, "model:motion:Tap:0",
@@ -56,6 +58,7 @@ static void check_defaults_and_validation(void) {
     memcpy(session.active_behaviors[2].model_id, "other", sizeof("other"));
     bongo_cat_settings_validate(&settings);
     bongo_cat_session_validate(&session);
+    CHECK(session.window.content_left == 0 && session.window.content_top == 0);
     CHECK(settings.model.max_fps == 60);
     const int old_fps[] = {-2, BONGO_CAT_DISPLAY_MAX_FPS, 0, 1, 24, 30, 31, 60, 120, 240};
     const int new_fps[] = {60, BONGO_CAT_DISPLAY_MAX_FPS, 60, 30, 30, 30, 60, 60, 60, 60};
