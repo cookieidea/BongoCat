@@ -15,17 +15,9 @@ static bool visible_at_pointer(BongoCatApp *app, float x, float y, bool pending_
     if (!SDL_GetWindowSize(app->window, &width, &height) ||
         !SDL_GetWindowSizeInPixels(app->window, &pixel_width, &pixel_height) ||
         width <= 0 || height <= 0 || pixel_width <= 0 || pixel_height <= 0) return false;
-    if (app->settings.window.rounded_corners) {
-        float radius = SDL_min(pixel_width, pixel_height) *
-            SDL_clamp(app->settings.window.corner_radius_percent, 0.0f, 50.0f) / 100.0f;
-        float px = x * pixel_width / width;
-        float py = y * pixel_height / height;
-        float dx = SDL_max(SDL_fabsf(px - pixel_width * 0.5f) -
-            (pixel_width * 0.5f - radius), 0.0f);
-        float dy = SDL_max(SDL_fabsf(py - pixel_height * 0.5f) -
-            (pixel_height * 0.5f - radius), 0.0f);
-        if (dx * dx + dy * dy > radius * radius) return false;
-    }
+    /* The presented/back-buffer alpha already includes the corner mask.
+       Use it as the authority, just like native hit testing and snapshots;
+       a second analytic mask would disagree on content margins and AA edges. */
     int pixel_x = SDL_clamp((int)(x * pixel_width / width), 0, pixel_width - 1);
     int pixel_y = pixel_height - 1 -
         SDL_clamp((int)(y * pixel_height / height), 0, pixel_height - 1);

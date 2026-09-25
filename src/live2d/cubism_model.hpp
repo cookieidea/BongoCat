@@ -130,6 +130,7 @@ private:
         bool dirty = true;
     };
     bool load_model(BongoCatError *error);
+    void configure_builtin_accessories(const std::vector<unsigned char> &moc);
     void load_expressions();
     void load_effects();
     void load_motions(BongoCatLive2DLoadProgress progress, void *userdata);
@@ -245,6 +246,8 @@ private:
     size_t texture_refresh_index_ = 0;
     bool trim_offscreen_pool_ = true;
     bool parameter_overrides_applied_ = false;
+    int builtin_accessory_parameter_ = -1;
+    int builtin_accessory_part_ = -1;
     std::vector<std::string> idle_motion_keys_;
     std::vector<MotionRun> motion_runs_;
     std::vector<unsigned char> motion_finished_scratch_;

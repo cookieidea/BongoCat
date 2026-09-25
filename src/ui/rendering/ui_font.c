@@ -73,8 +73,11 @@ static bool fontconfig_lookup(char *path, size_t capacity, const char *family,
                 != FcResultMatch || !charset
                 || !FcCharSetHasChar(charset, probe)))
             continue;
+        int index = 0;
         if (FcPatternGetString(font, FC_FILE, 0, &file) != FcResultMatch
-            || !file)
+            || !file
+            || FcPatternGetInteger(font, FC_INDEX, 0, &index) != FcResultMatch
+            || index != 0)
             continue;
         if (!rasterizable((const char *)file)) continue;
         snprintf(path, capacity, "%s", (const char *)file);
@@ -99,10 +102,15 @@ const char *bongo_cat_ui_system_font(char *path, size_t capacity, bool multiling
     const char *windows = SDL_getenv("WINDIR");
     if (!windows) windows = SDL_getenv("SystemRoot");
     if (windows) {
-        const char *multi[] = {"Fonts/msyh.ttc", "Fonts/msyhl.ttc"};
+        /* Windows 7 ships YaHei as TTF; newer Windows uses TTC. Probe
+           both filenames instead of assuming the installed font format. */
+        const char *multi[] = {"Fonts/msyh.ttc", "Fonts/msyh.ttf",
+            "Fonts/msyhl.ttc", "Fonts/simsun.ttc"};
         const char *latin[] = {"Fonts/segoeui.ttf", "Fonts/msyhl.ttc"};
         const char **candidates = multilingual ? multi : latin;
-        for (size_t i = 0; i < 2; ++i) {
+        size_t count = multilingual ?
+            sizeof(multi) / sizeof(multi[0]) : sizeof(latin) / sizeof(latin[0]);
+        for (size_t i = 0; i < count; ++i) {
             bongo_cat_path_join(path, capacity, windows, candidates[i]);
             if (readable(path)) return path;
         }
@@ -140,10 +148,15 @@ const char *bongo_cat_ui_system_heading_font(char *path, size_t capacity,
     const char *windows = SDL_getenv("WINDIR");
     if (!windows) windows = SDL_getenv("SystemRoot");
     if (windows) {
-        const char *multi[] = {"Fonts/msyhbd.ttc", "Fonts/msyhl.ttc"};
+        /* Prefer bold in either format, then a regular Chinese face. */
+        const char *multi[] = {"Fonts/msyhbd.ttc", "Fonts/msyhbd.ttf",
+            "Fonts/msyh.ttc", "Fonts/msyh.ttf", "Fonts/msyhl.ttc",
+            "Fonts/simsun.ttc"};
         const char *latin[] = {"Fonts/seguisb.ttf", "Fonts/segoeui.ttf"};
         const char **candidates = multilingual ? multi : latin;
-        for (size_t i = 0; i < 2; ++i) {
+        size_t count = multilingual ?
+            sizeof(multi) / sizeof(multi[0]) : sizeof(latin) / sizeof(latin[0]);
+        for (size_t i = 0; i < count; ++i) {
             bongo_cat_path_join(path, capacity, windows, candidates[i]);
             if (readable(path)) return path;
         }
